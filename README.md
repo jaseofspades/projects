@@ -1,2 +1,2 @@
 # projects
-Code work done for fun and learning
+Code work done for fun and learning!
