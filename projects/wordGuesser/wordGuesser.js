@@ -1,5 +1,7 @@
 const letters = document.querySelectorAll('.scoreboard-letter');
 const loadingBar = document.querySelector('.loading-bar');
+const loadingIcon = document.querySelector('.loading-icon');
+const gameTitle = document.querySelector('.brand');
 const MAXIMUM_GUESS_LENGTH = 5;
 const MAXIMUM_NUMBER_OF_ROUNDS = 5;
 
@@ -7,7 +9,6 @@ const MAXIMUM_NUMBER_OF_ROUNDS = 5;
  * Typing logic
  */
 async function init() {
-
     let currentGuess = '';
     let currentRow = 0;
     let isLoading = true;
@@ -15,7 +16,8 @@ async function init() {
     let guessedCorrectly = false;
 
     // Make API call to fetch the word of the day
-    const response = await fetch("https://words.dev-apis.com/word-of-the-day?random=1");
+    // NOTE: Add ?random=1 to end of the URL for a new random word every time the game loads!
+    const response = await fetch("https://words.dev-apis.com/word-of-the-day");
     const responseObject = await response.json();
     const wordOfTheDay = responseObject.word.toUpperCase();
     const wordOfTheDayLetters = wordOfTheDay.split("");
@@ -48,8 +50,6 @@ async function init() {
 
         // Add new letter into the current guess words
         letters[rowToWrite + currentGuess.length - 1].innerText = letter;
-
-        console.log(currentGuess.substring(0, currentGuess.length));
     }
 
     /**
@@ -62,10 +62,35 @@ async function init() {
             return;
         }
 
+        // Make an API call to validate the player's 5-letter word entry
+        // to determine if it's a valid word that can be played.
+        // If invalid, the player should not be able to submit the guess.
+        isLoading = true;
+        setLoading(true);
+        const response = await fetch("https://words.dev-apis.com/validate-word", {
+            method: "POST",
+            body: JSON.stringify({ word: currentGuess })
+        });
+
+        /** 
+         * NOTE: Both are the same in terms of initializing a variable from the response object,
+         * as long as you know the property name of the response object when it returns with line 82
+         */
+        const responseObject = await response.json();
+        // const validWord = responseObject.validWord;
+        const { validWord } = responseObject;
+
+        isLoading = false;
+        setLoading(false);
+
+        if (!validWord) {
+            declareWordInvalid();
+            return;
+        }
+
         // Verify whether the guess was correct, close, or wrong per letter
         const guessLetters = currentGuess.split("");
         const wordOfTheDayMap = createMap(wordOfTheDayLetters);
-        console.log(wordOfTheDayMap);
 
         // Loop through the guess letters and mark which ones are correct
         for (let i = 0; i < MAXIMUM_GUESS_LENGTH; i++) {
@@ -98,12 +123,9 @@ async function init() {
         // Only print lose condition on screen if player reaches final round
         // without guessing the word correctly
         if (currentGuess === wordOfTheDay) {
-            alert("You win!");
-            gameComplete = true;
-            guessedCorrectly = true;
+            declareWinner();
         } else if (currentRow === MAXIMUM_NUMBER_OF_ROUNDS && !guessedCorrectly) {
-            alert(`You lose. The word of the day was ${wordOfTheDay}`);
-            gameComplete = true;
+            declareLoser();
         }
 
         // If not game over, move down to the next row and purge the current guess word
@@ -112,7 +134,32 @@ async function init() {
     }
 
     /**
-     * Remove the last letter of the current guess word.
+     * Notifies the player that they have won!
+     */
+    function declareWinner() {
+        alert("You win!");
+
+        gameComplete = true;
+        guessedCorrectly = true;
+
+        // Add 'winner' styling class to the game title
+        gameTitle.classList.add("winner");
+        
+        // Set the loading icon to spin indefinitely!
+        setLoading(true);
+    }
+
+    /**
+     * Notifies the player that they have lost.
+     */
+    function declareLoser() {
+        alert(`You lose. The word of the day was ${wordOfTheDay}`);
+        gameComplete = true;
+        guessedCorrectly = false;
+    }
+
+    /**
+     * Removes the last letter of the current guess word.
      */
     function deleteLastLetter() {
 
@@ -125,6 +172,23 @@ async function init() {
         // Replace last letter in the word with empty character (i.e. [H,E,L,L,''])
         letters[rowToWrite + currentGuess.length].innerText = '';
     }
+
+    /**
+     * Displays a flash of red borders around the letters of the submitted invalid word.
+     */
+    function declareWordInvalid() {
+        for (let i = 0; i < MAXIMUM_GUESS_LENGTH; i++) {
+            letters[currentRow * MAXIMUM_GUESS_LENGTH + i].classList.remove("invalid");
+
+            setTimeout(function () {
+                letters[currentRow * MAXIMUM_GUESS_LENGTH + i].classList.add("invalid");
+            }, 300);
+        }
+    }
+
+    /**
+     * EVENT LISTENERS
+     */
 
     // NOTE: Good idea to name callback function for debugging purposes in the future if this event fails
     document.addEventListener('keydown', function handleKeyPress (event) {
@@ -154,6 +218,12 @@ function isLetter(letter) {
     return /^[a-zA-Z]$/.test(letter);
 }
 
+
+/**
+ * Toggles the loading icon on or off based on whether the game has
+ * finished loading after retrieving the word of the day
+ * @param isLoading - Boolean
+ */
 function setLoading(isLoading) {
     // Find the loading icon's class list to add 'hidden' class and toggle its visibility
     // If it's loading, show it; if it's not loading, remove it.
@@ -187,6 +257,5 @@ function createMap(array) {
     return object;
 }
 
-
-
+// Entry point
 init();
