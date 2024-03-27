@@ -19,6 +19,9 @@ function routeToController($uri, $routes)
     }
 }
 
+/**
+ * Re-directs to the 404 error page by default.
+ */
 function abort($statusCode = 404)
 {
     http_response_code($statusCode);
