@@ -27,4 +27,3 @@ function abort($statusCode = 404)
 
     die();
 }
-// unnecessary comment
