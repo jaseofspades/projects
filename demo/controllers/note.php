@@ -1,5 +1,8 @@
 <?php
 
+namespace demo\controllers;
+
+use Database;
 use Response;
 
 $config = require('config.php');
@@ -10,17 +13,12 @@ $db = new Database(
 );
 
 $heading = 'Note';
+
 $id = $_GET['id'];
 $currentUserId = 1;
 
-$note = $db->query("select * from notes where id = {$id}")->fetch();
+$note = $db->query("select * from notes where id = {$id}")->findOrFail();
 
-if (!$note) {
-    abort(Response::NOT_FOUND);
-}
-
-if ($note['user_id'] !== $currentUserId) {
-    abort(Response::FORBIDDEN);
-}
+authorize($note['user_id'] === $currentUserId);
 
 require "views/note.view.php";
