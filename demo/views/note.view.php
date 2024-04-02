@@ -1,13 +1,16 @@
 <?php require('partials/head.php') ?>
 <?php require('partials/nav.php') ?>
+<?php require('partials/banner.php') ?>
 
 <main>
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold">Sorry, page not found.</h1>
         <p>
-            <a href="/" class="text-blue underline">Go back home</a>
+            <a href="/notes" class="text-blue-500 underline">Go back to Notes</a>
         </p>
 
+        <p>
+            <?= $note['body'] ?>
+        </p>
     </div>
 </main>
 

@@ -7,4 +7,5 @@
         <p>You're on the about page!</p>
     </div>
 </main>
+
 <?php require('partials/footer.php') ?>
