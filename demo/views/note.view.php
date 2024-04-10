@@ -9,7 +9,11 @@
         </p>
 
         <p>
-            <?= $note['body'] ?>
+            <!-- 
+                htmlspecialchars() is a built-in PHP function that converts special chars to HTML entities.
+                This helps prevent malicious user input that takes the form of HTML to cause unintended behaviors.
+            -->
+            <?= htmlspecialchars($note['body']) ?>
         </p>
     </div>
 </main>
