@@ -1,10 +1,8 @@
 <?php
 
-namespace demo\controllers;
+require 'Validator.php';
 
-use Database;
-
-$config = require('config.php');
+$config = require 'config.php';
 $db = new Database(
     config: $config['database'],
     password: $config['database']['password']
@@ -22,14 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $errors = [];
 
-    // Submission criteria: Body cannot be empty
-    if (strlen($_POST['body']) === 0) {
-        $errors['body'] = 'A note body is required.';
-    }
-
-    // Submission criteria: Body cannot exceed maximum length
-    if (strlen($_POST['body']) > MAXIMUM_CHAR_LENGTH) {
-        $errors['body'] = 'A note body cannot be more than ' . (string) MAXIMUM_CHAR_LENGTH . ' characters.';
+    // Submission criteria: Body cannot be empty and within 1 to MAX characters
+    if (!Validator::string($_POST['body'], maximumCharLength: MAXIMUM_CHAR_LENGTH)) {
+        $errors['body'] = 'A note body of no more than ' . (string) MAXIMUM_CHAR_LENGTH . ' characters is required.';
     }
 
     if (empty($errors)) {
