@@ -12,6 +12,4 @@ return [
         'charset' => 'utf8mb4',
         'password' => 'ChipsAreDelicious123$%',  // This would obviously not be stored out in the open in production; would be tucked behind a secret instead
     ],
-
-
 ];
