@@ -1,5 +1,10 @@
 <?php
 
+namespace Core;
+
+use PDO;
+use Core\Response;
+
 // Connect to MySQL database and execute a query
 class Database
 {

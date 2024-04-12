@@ -2,8 +2,7 @@
 
 namespace demo\controllers;
 
-use Database;
-use Response;
+use Core\Database;
 
 $config = require('config.php');
 
