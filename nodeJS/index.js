@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // This line specifies the programming environment the code below should be run when executing via CLI
+// Think of this as the "ENTRY FILE"
 
 
 // const note = process.argv[2];
@@ -72,3 +73,44 @@
 // thing.somethingElse();
 
 // // Ultimately, the `import` syntax is best practice
+
+
+
+/**
+ * File system module
+ */
+
+// The file system module does what a human being can with files in a computer, this module can do as well
+// import fs from 'node:fs';
+// const data = fs.readFileSync('notes.json', 'utf-8');
+
+// // The HTTP module helps you make servers
+// // Typically, most engineers use framework that stems off of this module
+// import http from 'node:http';
+
+/**
+ * NPM - Node Package Manager
+ */
+// When using npm, you can typically run `npm install {name of package you want to install}`
+// If you need a package for anything, google it with "npm {module name}" and you'll most likely find it
+
+// Example:  You ran 'npm install exif-parser' in your terminal
+// The module gets installed
+// And notice in your project directory a new directory was created: `node_modules`
+// All items downloaded and installed will be stored in node_modules
+
+// Notice the inclusion of `package-lock.json` ?
+// This file is similar to package.json, but it basically locks in the versions of all the things we installed
+// This is useful to ensure everyone on the team are using the same versions of the same modules
+// And when we deploy it to another server, we need the server to also have the same matching versions to be compatible!
+
+// The package and package-lock.json files help indicate what modules are needed at which versions in order to use your stuff
+// And it makes it easier for anyone who wants to use your stuff by running a simple npm install and get the versions and modules
+// And in package.json, you'll notice the exif-parser module listed in the `dependencies` section
+
+
+
+/**
+ * Yargs module
+ */
+import './src/command.js';
