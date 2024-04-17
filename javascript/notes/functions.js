@@ -123,3 +123,68 @@
 // And as a result `myQuestion` is assigned the function expression holdYourQuestion()
 // It's because of closure that `question` is still reference-able at the time of
 // calling myQuestion()
+
+
+/**
+ * `this` keyword
+ */
+// A function's `this` references the execution context for that call
+// It's determined entirely by HOW THE FUNCTION WAS CALLED!
+// Functions aware of `this` have different contexts each time they're called
+
+// var workshop = {
+//     teacher: "Kyle",
+//     ask(question) {
+//         console.log(this.teacher, question);
+//     }
+// };
+
+// workshop.ask("What is implicit binding?");
+
+// At the place where the function is called, there's a workshop object
+// that `this` is bound to
+// At the time of calling the ask() function, it will pull the name "Kyle"
+
+// function ask(question) {
+//     console.log(this.teacher, question);
+// }
+
+// function otherClass() {
+//     var myContext = {
+//         teacher: "Suzy"
+//     };
+
+//     ask.call(myContext, "Why?"); // "Suzy Why?"
+// }
+
+// otherClass();
+
+// When we use this.teacher, it uses myContext as the bound object
+// And when we call this.teacher inside ask(), it knows to use myContext
+// This is using a dynamic context for `this`
+
+
+/**
+ * Prototypes
+ */
+
+// We can define a function called Workshop that is aware of `this`
+// and this function becomes a constructor for instances of its class type Workshop
+// function Workshop(teacher) {
+//     this.teacher = teacher;
+// }
+
+// To add functions to the Workshop class constructor, we add them through the prototype
+// of the Workshop class
+
+// Prototype is an object where any instances are going to be linked to
+// Workshop.prototype.ask = function(question) {
+//     console.log(this.teacher, question);
+// }
+
+// `new` keyword will invoke the Workshop function, and the object made will be
+// linked to Workshop.prototype
+// And since the prototype has access to the ask() function, we can call it 
+// using the instance of a Workshop
+// var deepJS = new Workshop("Kyle");
+// deepJS.ask("Is 'prototype' a class?");
