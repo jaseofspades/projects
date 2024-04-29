@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 const Pet = (props) => {
     // NOTE: React will automatically put all items in the child component parameter
     //       into an array if you don't explicitly add the []'s

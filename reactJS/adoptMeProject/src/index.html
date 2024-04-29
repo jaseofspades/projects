@@ -8,8 +8,10 @@
 </head>
 <body>
     <div id="root">NOT RENDERED</div>
-    <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+    <!-- These scripts won't be necessary if you bundle them into your project -->
+    <!-- <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script> -->
     <!-- <script>
         // Writing code in-line in a HTML file to start a pure React app:
         const App = () => {
@@ -39,6 +41,8 @@
 
         // This has been relocated to src/App.js
     </script> -->
-    <script src="./App.js"></script>
+
+    <!-- type='module' is for Vite to recognize  -->
+    <script type="module" src="./App.jsx"></script>
 </body>
 </html>
