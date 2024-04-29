@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+// You can import specific items from libraries via destructure
+import { createRoot } from 'react-dom';
 
 const Pet = (props) => {
     // NOTE: React will automatically put all items in the child component parameter
@@ -43,7 +45,7 @@ const App = () => {
 
 // Grabs 'App' and renders it on the DOM
 const container = document.getElementById("root");
-const root = ReactDOM.createRoot(container);
+const root = createRoot(container);
 
 /**
  * Notice that we pass in a whole component and not specific HTML elements?
