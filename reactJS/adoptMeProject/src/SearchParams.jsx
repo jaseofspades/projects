@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Pet from "./Pet";
+import useBreedList from "./useBreedList";
 
 const ANIMALS = ["bird", "cat", "dog", "rabbit", "reptile"];
 
@@ -18,7 +19,7 @@ const SearchParams = () => {
     const [animal, setAnimal] = useState("");
     const [breed, setBreed] = useState("");
     const [pets, setPets] = useState([]);
-    const breeds = [];
+    const [breeds] = useBreedList(animal);
 
     /**
      * `useEffect` allows you to say do a render of this component first so the user can see something.
@@ -45,8 +46,13 @@ const SearchParams = () => {
       <div className="search-params">
 
         {/* 
+            `form onSubmit`
             This setup is specifically to prevent the actual submission of the form, because we're making a mock API
             call to request pets based on the parameters specified in the form.
+
+            This is called "Controlled Forms", but it's not best practice. This is strictly for understanding states.
+            - We don't do anything with `animal`, `breed`, `location` until we click on Submit
+            - Typically with forms, we use "Uncontrolled Forms" where we just pass in the parameters filled in from the form to an endpoint via browser
         */}
         <form onSubmit={event => {
             event.preventDefault();
