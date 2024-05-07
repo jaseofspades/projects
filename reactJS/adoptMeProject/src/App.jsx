@@ -1,12 +1,22 @@
 import { createRoot } from "react-dom/client";
+import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import SearchParams from "./SearchParams";
+import Details from "./Details";
 
 const App = () => {
   return (
-    <div>
-      <h1>Adopt Me!</h1>
-      <SearchParams />
-    </div>
+    <BrowserRouter>
+        {/* If you use a header like this to allow for the user to return home with a link, ensure the header
+            is inside the `BrowserRouter` component */}
+        <header>
+            <Link to="/">Adopt Me!</Link>
+        </header>
+        <Routes>
+            {/* In React v6, routes can take parameters in the form of `:paramName` */}
+            <Route path="/details/:id" element={<Details />} />
+            <Route path="/" element={<SearchParams />} />
+        </Routes>
+    </BrowserRouter>
   );
 };
 
