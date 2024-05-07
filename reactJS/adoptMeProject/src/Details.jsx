@@ -5,12 +5,14 @@
 // This is possible because `useParams` assumes a `BrowserRouter` is available and it reaches into it to pull out a parameter
 // by the name used in the `BrowserRouter`
 import { useParams } from 'react-router-dom';
-
 import { useQuery } from '@tanstack/react-query';
 import fetchPet from './fetchPet';
+import Carousel from './Carousel';
 
 const Details = () => {
+    
     const { id } = useParams();
+
     /**
      * This is how `useQuery()` works:
      * - We give it a 'key' to name the key we're caching the results under, in this case 'details'
@@ -52,6 +54,7 @@ const Details = () => {
 
     return (
         <div className="details">
+            <Carousel images={pet.images} />
             <div>
                 <h1>{pet.name}</h1>
                 <h2>
