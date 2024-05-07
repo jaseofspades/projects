@@ -8,7 +8,8 @@ import { Component } from "react";
 class Carousel extends Component {
     state = {
         active: 0,
-    }
+        name: "luna"
+    };
 
     // This sets the default value for what props are within the scope of your class component
     // So if this.props is never set to anything, it provides the default value for the props
@@ -18,6 +19,22 @@ class Carousel extends Component {
     // this class component
     static defaultProps = {
         images: ["http://pets-images.dev-apis.com/pets/none/jpg"],
+    };
+
+    // Event handling in Class components
+    // - An image is clicked on, which is the event
+    // - Calls this function `handleIndexClick()`
+    // - Which then calls `this.setState()` to update the state of 
+    //   a property that's being tracked for state change under the `state` object
+    handleIndexClick = (event) => {
+        this.setState({
+            // event = the click on an image
+            // target = the image that was clicked on
+            // dataset = refers to all `data-___` items on a given object, which is `data-index={index}` in this case
+            // index = a String (because all items off the DOM are strings) value
+            // + = unary operator that coerces a string to a number
+            active: +event.target.dataset.index
+        });
     };
 
     /**
@@ -56,6 +73,8 @@ class Carousel extends Component {
                 <div className="carousel-smaller">
                     {images.map((photo, index) => {
                         <img
+                            onClick={this.handleIndexClick} // Event handling in Class Components example
+                            data-index={index}
                             key={photo}
                             src={photo}
                             className={index === active ? "active" : ""}
@@ -69,3 +88,17 @@ class Carousel extends Component {
 }
 
 export default Carousel;
+
+/**
+ * Recall that you cannot use hooks, useQuery, or anything that can be used in function components within a class component.
+ * But if you wanted to use functional components within the context of class components, here's how you might do it:
+ * 
+ * You can create a small functional component and passes it down to the Carousel child component.
+ */
+// function CarouselParent ({animal}) {
+//     const [breedList] = useBreedList(animal);
+
+//     return <Carousel breedList={breedList} />
+// }
+
+// export default CarouselParent;
