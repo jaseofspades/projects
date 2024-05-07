@@ -1,7 +1,9 @@
 {
     "dependencies": {
+        "@tanstack/react-query": "^4.10.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-router-dom": "^6.4.1",
         "yargs": "^17.7.2"
     },
     "name": "code",
