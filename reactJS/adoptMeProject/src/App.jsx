@@ -1,21 +1,39 @@
 import { createRoot } from "react-dom/client";
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import SearchParams from "./SearchParams";
 import Details from "./Details";
+
+/**
+ * `QueryClient` can help abstract what `useEffect()` does and its cache is stored in-memory
+ */
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            // How long do we want to cache the results after fetching them?
+            // If finite, then use math in milliseconds (i.e. 1000ms * 60s * 10m = 10 minutes)
+            // If infinite, use `Infinity`
+            staleTime: Infinity,
+            cacheTime: Infinity,
+        }
+    }
+});
 
 const App = () => {
   return (
     <BrowserRouter>
-        {/* If you use a header like this to allow for the user to return home with a link, ensure the header
-            is inside the `BrowserRouter` component */}
-        <header>
-            <Link to="/">Adopt Me!</Link>
-        </header>
-        <Routes>
-            {/* In React v6, routes can take parameters in the form of `:paramName` */}
-            <Route path="/details/:id" element={<Details />} />
-            <Route path="/" element={<SearchParams />} />
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+            {/* If you use a header like this to allow for the user to return home with a link, ensure the header
+                is inside the `BrowserRouter` component */}
+            <header>
+                <Link to="/">Adopt Me!</Link>
+            </header>
+            <Routes>
+                {/* In React v6, routes can take parameters in the form of `:paramName` */}
+                <Route path="/details/:id" element={<Details />} />
+                <Route path="/" element={<SearchParams />} />
+            </Routes>
+        </QueryClientProvider>
     </BrowserRouter>
   );
 };

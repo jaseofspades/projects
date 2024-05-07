@@ -18,6 +18,12 @@ export default function useBreedList(animal) {
     const [breedList, setBreedList] = useState([]);
     const [status, setStatus] = useState("unloaded");
 
+    /**
+     * Unfortunately, `useEffect()` is going to be the hardest part of React to understand because
+     * it's not always obvious what the subsequent effects are after a component renders.
+     * 
+     * But the nice thing is that these complicated operations are better abstracted through React Query!
+     */
     useEffect(() => {
         // If an animal selection doesn't exist, there are no breeds to fetch for it
         if (!animal) {
